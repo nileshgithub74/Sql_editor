@@ -1,4 +1,4 @@
-# SQL Editor - Interactive SQL Learning Platform
+# SQL Code Studio- Interactive SQL Learning Platform
 
 A full-stack web application for learning and practicing SQL queries with real-time validation and feedback.
 
