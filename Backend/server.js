@@ -12,7 +12,11 @@ const port = process.env.PORT || 8080;
 
 // middleware
 app.use(cors({
-  origin: "http://localhost:5173", // Frontend URL
+  origin: [
+    "http://localhost:5173", // Local development
+    "https://your-frontend-domain.netlify.app", // Replace with your actual frontend URL
+    "https://your-frontend-domain.vercel.app"   // Or whatever platform you use
+  ],
   credentials: true
 }));
 
@@ -21,6 +25,19 @@ app.use(express.urlencoded({ extended: true }));
 
 //Database connection
 ConnectDB();
+
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "SQL Editor Backend API is running!",
+    status: "healthy",
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", timestamp: new Date().toISOString() });
+});
 
 //routes
 app.use("/api/assignment", assignmentRoutes);
