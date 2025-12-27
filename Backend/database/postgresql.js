@@ -3,16 +3,29 @@ const { Pool } = pkg;
 import { v4 as uuidv4 } from 'uuid';
 
 // Database connection pool
-const pool = new Pool({
-  user: process.env.PG_USER || 'postgres',
-  host: process.env.PG_HOST || 'localhost',
-  database: process.env.PG_DATABASE || 'ciphersqlstudio_app',
-  password: process.env.PG_PASSWORD || 'nilesh12',
-  port: process.env.PG_PORT || 5432,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+// Support both DATABASE_URL (Render) and individual env variables (local)
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        },
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+      }
+    : {
+        user: process.env.PG_USER || 'postgres',
+        host: process.env.PG_HOST || 'localhost',
+        database: process.env.PG_DATABASE || 'ciphersqlstudio_app',
+        password: process.env.PG_PASSWORD || 'nilesh12',
+        port: process.env.PG_PORT || 5432,
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+      }
+);
 
 // Convert MongoDB data types to PostgreSQL types
 const convertDataType = (mongoType) => {

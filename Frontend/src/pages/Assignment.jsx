@@ -15,6 +15,8 @@ const Assignment = () => {
   const [schemaId, setSchemaId] = useState(null);
   const [tables, setTables] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   // Refs for scrolling
   const resultsRef = useRef(null);
@@ -46,32 +48,59 @@ const Assignment = () => {
   }, [showResults]);
 
   const loadAssignment = async () => {
-    const response = await axios.post(`${API_CONFIG.BASE_URL}/sql/assignment/load`, {
-      assignmentId: id,
-      sessionId: `session_${Date.now()}`
-    });
-    
-    setAssignment(response.data.data.assignment);
-    setSchemaId(response.data.data.schemaId);
-    setTables(response.data.data.tables || []);
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('Loading assignment with ID:', id);
+      console.log('API URL:', API_CONFIG.BASE_URL);
+      
+      const response = await axios.post(`${API_CONFIG.BASE_URL}/sql/assignment/load`, {
+        assignmentId: id,
+        sessionId: `session_${Date.now()}`
+      });
+      
+      console.log('Assignment loaded:', response.data);
+      
+      setAssignment(response.data.data.assignment);
+      setSchemaId(response.data.data.schemaId);
+      setTables(response.data.data.tables || []);
+    } catch (error) {
+      console.error('Error loading assignment:', error);
+      console.error('Error details:', error.response?.data || error.message);
+      setError('Failed to load assignment. Please check the console for details.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const executeQuery = async (query) => {
-    const executeResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/execute`, {
-      query,
-      schemaId
-    });
-    setResults(executeResponse.data.data);
-    
-    const validateResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/validate`, {
-      query,
-      assignmentId: assignment._id,
-      schemaId: schemaId
-    });
-    setValidation(validateResponse.data.data);
-    
-    // Automatically show results after running query
-    setShowResults(true);
+    try {
+      console.log('Executing query:', query);
+      console.log('Schema ID:', schemaId);
+      
+      const executeResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/execute`, {
+        query,
+        schemaId
+      });
+      
+      console.log('Query results:', executeResponse.data);
+      setResults(executeResponse.data.data);
+      
+      const validateResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/validate`, {
+        query,
+        assignmentId: assignment._id,
+        schemaId: schemaId
+      });
+      
+      console.log('Validation results:', validateResponse.data);
+      setValidation(validateResponse.data.data);
+      
+      // Automatically show results after running query
+      setShowResults(true);
+    } catch (error) {
+      console.error('Error executing query:', error);
+      console.error('Error details:', error.response?.data || error.message);
+    }
   };
 
   const toggleResults = () => {
@@ -80,6 +109,8 @@ const Assignment = () => {
 
   return (
     <div className="assignment">
+      {loading && <div className="loading">Loading assignment...</div>}
+      {error && <div className="error">{error}</div>}
       {assignment && (
         <>
           <AssignmentHeader assignment={assignment} />
