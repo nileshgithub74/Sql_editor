@@ -5,7 +5,8 @@
   text-align: center;
 }
 
-.title-row {
+.title-assign{
+  
   display: flex;
   justify-content: center;
   align-items: center;

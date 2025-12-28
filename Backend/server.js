@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 //Database connection
 ConnectDB();
 
-// Health check endpoint
+
 app.get("/", (req, res) => {
   res.json({ 
     message: "SQL Editor Backend API is running!",
@@ -31,8 +31,12 @@ app.get("/", (req, res) => {
 
 
 //routes
+
 app.use("/api/assignment", assignmentRoutes);
 app.use("/api/sql", sqlRoutes);
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running at port ${port}`);

@@ -41,7 +41,7 @@ const SQLEditor = ({ onExecute }) => {
       </div>
       
       <div className="editor-footer">
-        <span>Press Ctrl+Enter to execute</span>
+        <span>Press Ctrl+Enter to run the code...</span>
       </div>
     </div>
   );

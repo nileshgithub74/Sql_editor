@@ -59,40 +59,6 @@ const assignmentSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create UserProgress schema for tracking
-const userProgressSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true
-  },
-  assignmentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Assignment',
-    required: true
-  },
-  sqlQuery: String,
-  lastAttempt: {
-    type: Date,
-    default: Date.now
-  },
-  isCompleted: {
-    type: Boolean,
-    default: false
-  },
-  attemptCount: {
-    type: Number,
-    default: 0
-  },
-  lastError: String,
-  hintUsedCount: {
-    type: Number,
-    default: 0
-  }
-}, {
-  timestamps: true
-});
-
 const Assignment = mongoose.model("Assignment", assignmentSchema);
-const UserProgress = mongoose.model("UserProgress", userProgressSchema);
 
-export { Assignment as default, UserProgress };
+export default Assignment;

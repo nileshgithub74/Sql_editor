@@ -9,7 +9,8 @@ import {
 import { validateAnswer } from "../services/answerValidationService.js";
 import Assignment from "../models/assignmentModel.js";
 
-// Load assignment into workspace
+
+
 export const loadAssignment = async (req, res) => {
   try {
     const { assignmentId, sessionId } = req.body;
@@ -54,7 +55,7 @@ export const loadAssignment = async (req, res) => {
   }
 };
 
-// Execute SQL query
+
 export const executeQuery = async (req, res) => {
   const { query, schemaId } = req.body;
 
@@ -68,7 +69,6 @@ export const executeQuery = async (req, res) => {
   });
 };
 
-// Validate user's answer
 export const validateUserAnswer = async (req, res) => {
   const { query, assignmentId, schemaId } = req.body;
 

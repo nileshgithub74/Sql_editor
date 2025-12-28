@@ -29,6 +29,7 @@ const pool = new Pool(
 );
 
 // Convert MongoDB data types to PostgreSQL types
+
 const convertDataType = (mongoType) => {
   const typeMap = {
     'STRING': 'TEXT',
