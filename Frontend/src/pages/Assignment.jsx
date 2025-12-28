@@ -5,7 +5,7 @@ import Sidebar from "../component/Sidebar";
 import QueryPanel from "../component/QueryPanel";
 import axios from "axios";
 import API_CONFIG from "../config/api";
-import '../styles/Assignment.css';
+import "../styles/Assignment.css";
 
 const Assignment = () => {
   const { id } = useParams();
@@ -15,8 +15,7 @@ const Assignment = () => {
   const [schemaId, setSchemaId] = useState(null);
   const [tables, setTables] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  
- 
+
   const resultsRef = useRef(null);
   const editorRef = useRef(null);
 
@@ -24,77 +23,77 @@ const Assignment = () => {
     loadAssignment();
   }, [id]);
 
-  
   useEffect(() => {
     if (showResults && resultsRef.current) {
-      
       setTimeout(() => {
-        resultsRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        resultsRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
       }, 100);
-
     } else if (!showResults && editorRef.current) {
-    
       setTimeout(() => {
-        editorRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        editorRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
       }, 100);
     }
   }, [showResults]);
 
-
   const loadAssignment = async () => {
     try {
-      const response = await axios.post(`${API_CONFIG.BASE_URL}/sql/assignment/load`, {
-        assignmentId: id,
-        sessionId: `session_${Date.now()}`
-      });
-      
-      console.log('Assignment loaded:', response.data);
-      
+      const response = await axios.post(
+        `${API_CONFIG.BASE_URL}/sql/assignment/load`,
+        {
+          assignmentId: id,
+          sessionId: `session_${Date.now()}`,
+        }
+      );
+
+      console.log("Assignment loaded:", response.data);
+
       const { assignment, schemaId, tables = [] } = response.data.data;
-      
+
       setAssignment(assignment);
       setSchemaId(schemaId);
       setTables(tables);
-
     } catch (error) {
-      console.log('Error loading assignment', error);
-      
+      console.log("Error loading assignment", error);
     }
   };
 
   const executeQuery = async (query) => {
     try {
-    
-      const executeResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/execute`, {
-        query,
-        schemaId
-      });
-      
-      console.log('Query results:', executeResponse.data);
+      const executeResponse = await axios.post(
+        `${API_CONFIG.BASE_URL}/sql/query/execute`,
+        {
+          query,
+          schemaId,
+        }
+      );
+
+      console.log("Query results:", executeResponse.data);
       const { data: queryResults } = executeResponse.data;
       setResults(queryResults);
-      
-      const validateResponse = await axios.post(`${API_CONFIG.BASE_URL}/sql/query/validate`, {
-        query,
-        assignmentId: assignment._id,
-        schemaId
-      });
-      
-      console.log('Validation results:', validateResponse.data);
+
+      const validateResponse = await axios.post(
+        `${API_CONFIG.BASE_URL}/sql/query/validate`,
+        {
+          query,
+          assignmentId: assignment._id,
+          schemaId,
+        }
+      );
+
+      console.log("Validation results:", validateResponse.data);
       const { data: validationResults } = validateResponse.data;
       setValidation(validationResults);
-      
-      
+
       setShowResults(true);
     } catch (error) {
-      console.error('Error executing query:', error);
-      console.error('Error details:', error.response?.data || error.message);
+      console.error("Error executing query:", error);
+      console.error("Error details:", error.response?.data || error.message);
     }
   };
 
@@ -107,10 +106,10 @@ const Assignment = () => {
       {assignment && (
         <>
           <AssignmentHeader assignment={assignment} />
-          
+
           <div className="content">
             <Sidebar assignment={assignment} tables={tables} />
-            <QueryPanel 
+            <QueryPanel
               onExecute={executeQuery}
               results={results}
               validation={validation}
