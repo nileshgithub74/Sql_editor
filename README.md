@@ -4,12 +4,6 @@ A comprehensive SQL learning platform with interactive query execution, user aut
 
 ## 🚀 Features
 
-### Authentication System
-- **User Registration & Login** with email validation
-- **JWT-based Authentication** for secure sessions
-- **Password Hashing** using bcryptjs
-- **Toast Notifications** for user feedback
-- **Automatic Redirects** after successful authentication
 
 ### SQL Learning Platform
 - **Interactive SQL Editor** with Monaco Editor
