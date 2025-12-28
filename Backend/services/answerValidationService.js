@@ -2,6 +2,7 @@ import { executeUserQuery, pool } from '../database/postgresql.js';
 
 // Compare two result sets for equality
 const compareResults = (userResult, expectedResult) => {
+
   if (userResult.rows.length !== expectedResult.rows.length) {
     return {
       isCorrect: false,
@@ -64,6 +65,7 @@ const compareResults = (userResult, expectedResult) => {
 };
 
 // Get expected SQL query for assignment
+
 const getExpectedQuery = (assignment) => {
   const expectedQueries = {
     "Basic SELECT Query": "SELECT * FROM employees",
@@ -84,6 +86,7 @@ export const validateAnswer = async (userQuery, assignment, schemaId) => {
   const expectedQuery = getExpectedQuery(assignment);
   
   if (!expectedQuery) {
+    
     return {
       isCorrect: true,
       message: 'Query executed successfully!',

@@ -2,8 +2,9 @@ import pkg from 'pg';
 const { Pool } = pkg;
 import { v4 as uuidv4 } from 'uuid';
 
-// Database connection pool
-// Support both DATABASE_URL (Render) and individual env variables (local)
+
+
+
 const pool = new Pool(
   process.env.DATABASE_URL
     ? {
@@ -121,6 +122,9 @@ export const getSchemaInfo = async (client, schemaId) => {
   
   return schema;
 };
+
+
+
 
 // Get table data with sample rows
 export const getTableData = async (client, schemaId) => {

@@ -17,10 +17,6 @@ export const generateHint = (query, assignment, error) => {
     hints.push("Start your query with SELECT.");
   }
   
-  if (!upperQuery.includes('FROM')) {
-    hints.push("Use FROM to specify which table to query.");
-  }
-  
   // Error-specific help
   if (error) {
     if (error.includes('does not exist')) {
