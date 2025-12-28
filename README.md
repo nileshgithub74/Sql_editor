@@ -110,11 +110,6 @@ CipherSQL-Studio/
 
 ## 🔗 API Endpoints
 
-### Authentication Routes
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get current user (protected)
-- `POST /api/auth/logout` - User logout
 
 ### Assignment Routes
 - `GET /api/assignment` - Get all assignments
